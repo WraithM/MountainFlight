@@ -25,8 +25,8 @@ int nFPS = 30;
 
 int seed(float x, float y) {
     static int a = 1588635695, b = 1117695901;
-	int xi = *(int *)&x;
-	int yi = *(int *)&y;
+    int xi = *(int *)&x;
+    int yi = *(int *)&y;
     return ((xi * a) % b) - ((yi * b) % a);
 }
 
@@ -36,94 +36,94 @@ void mountain(
         float x1, float y1, float z1, 
         float x2, float y2, float z2, 
         float s) {
-	float x01,y01,z01,x12,y12,z12,x20,y20,z20;
+    float x01,y01,z01,x12,y12,z12,x20,y20,z20;
 
-	if (s < polysize) {
-		x01 = x1 - x0;
-		y01 = y1 - y0;
-		z01 = z1 - z0;
+    if (s < polysize) {
+        x01 = x1 - x0;
+        y01 = y1 - y0;
+        z01 = z1 - z0;
 
-		x12 = x2 - x1;
-		y12 = y2 - y1;
-		z12 = z2 - z1;
+        x12 = x2 - x1;
+        y12 = y2 - y1;
+        z12 = z2 - z1;
 
-		x20 = x0 - x2;
-		y20 = y0 - y2;
-		z20 = z0 - z2;
+        x20 = x0 - x2;
+        y20 = y0 - y2;
+        z20 = z0 - z2;
 
-		float nx = y01*(-z20) - (-y20)*z01;
-		float ny = z01*(-x20) - (-z20)*x01;
-		float nz = x01*(-y20) - (-x20)*y01;
+        float nx = y01*(-z20) - (-y20)*z01;
+        float ny = z01*(-x20) - (-z20)*x01;
+        float nz = x01*(-y20) - (-x20)*y01;
 
-		float den = sqrt(nx*nx + ny*ny + nz*nz);
+        float den = sqrt(nx*nx + ny*ny + nz*nz);
 
-		if (den > 0.0) {
-			nx /= den;
-			ny /= den;
-			nz /= den;
-		}
+        if (den > 0.0) {
+            nx /= den;
+            ny /= den;
+            nz /= den;
+        }
 
-		glNormal3f(nx,ny,nz);
-		glBegin(GL_TRIANGLES);
-			glVertex3f(x0,y0,z0);
-			glVertex3f(x1,y1,z1);
-			glVertex3f(x2,y2,z2);
-		glEnd();
+        glNormal3f(nx,ny,nz);
+        glBegin(GL_TRIANGLES);
+            glVertex3f(x0,y0,z0);
+            glVertex3f(x1,y1,z1);
+            glVertex3f(x2,y2,z2);
+        glEnd();
 
-		return;
-	}
+        return;
+    }
 
-	x01 = 0.5*(x0 + x1);
-	y01 = 0.5*(y0 + y1);
-	z01 = 0.5*(z0 + z1);
+    x01 = 0.5*(x0 + x1);
+    y01 = 0.5*(y0 + y1);
+    z01 = 0.5*(z0 + z1);
 
-	x12 = 0.5*(x1 + x2);
-	y12 = 0.5*(y1 + y2);
-	z12 = 0.5*(z1 + z2);
+    x12 = 0.5*(x1 + x2);
+    y12 = 0.5*(y1 + y2);
+    z12 = 0.5*(z1 + z2);
 
-	x20 = 0.5*(x2 + x0);
-	y20 = 0.5*(y2 + y0);
-	z20 = 0.5*(z2 + z0);
+    x20 = 0.5*(x2 + x0);
+    y20 = 0.5*(y2 + y0);
+    z20 = 0.5*(z2 + z0);
 
-	s *= 0.5;
+    s *= 0.5;
 
-	srand(seed(x01,y01));
-	z01 += 0.3*s*(2.0*((float)rand()/(float)RAND_MAX) - 1.0);
-	srand(seed(x12,y12));
-	z12 += 0.3*s*(2.0*((float)rand()/(float)RAND_MAX) - 1.0);
-	srand(seed(x20,y20));
-	z20 += 0.3*s*(2.0*((float)rand()/(float)RAND_MAX) - 1.0);
+    srand(seed(x01,y01));
+    z01 += 0.3*s*(2.0*((float)rand()/(float)RAND_MAX) - 1.0);
+    srand(seed(x12,y12));
+    z12 += 0.3*s*(2.0*((float)rand()/(float)RAND_MAX) - 1.0);
+    srand(seed(x20,y20));
+    z20 += 0.3*s*(2.0*((float)rand()/(float)RAND_MAX) - 1.0);
 
-	mountain(x0,y0,z0,x01,y01,z01,x20,y20,z20,s);
-	mountain(x1,y1,z1,x12,y12,z12,x01,y01,z01,s);
-	mountain(x2,y2,z2,x20,y20,z20,x12,y12,z12,s);
-	mountain(x01,y01,z01,x12,y12,z12,x20,y20,z20,s);
+    mountain(x0,y0,z0,x01,y01,z01,x20,y20,z20,s);
+    mountain(x1,y1,z1,x12,y12,z12,x01,y01,z01,s);
+    mountain(x2,y2,z2,x20,y20,z20,x12,y12,z12,s);
+    mountain(x01,y01,z01,x12,y12,z12,x20,y20,z20,s);
 }
 
 // Initialization
 void init(void) {
-	GLfloat white[] = {1.0,1.0,1.0,1.0};
+    GLfloat white[] = {1.0,1.0,1.0,1.0};
     GLfloat lpos[] = {0.0,0.0,1.0,0.0};
 
-	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT0);
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
 
-	glLightfv(GL_LIGHT0, GL_POSITION, lpos);
-	glLightfv(GL_LIGHT0, GL_AMBIENT, white);
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, white);
-	glLightfv(GL_LIGHT0, GL_SPECULAR, white);
+    glLightfv(GL_LIGHT0, GL_POSITION, lpos);
+    glLightfv(GL_LIGHT0, GL_AMBIENT, white);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, white);
+    glLightfv(GL_LIGHT0, GL_SPECULAR, white);
 
     glClearColor (0.5, 0.5, 1.0, 0.0);
-	/* glShadeModel (GL_FLAT); */
+    /* glShadeModel (GL_FLAT); */
     glClearDepth(1.0f);
-	glEnable(GL_DEPTH_TEST);
+    glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 
     glPointSize(3.0f);
 
-	sealevel = 0.0;
-	polysize = 0.04*mountainsize;
+    sealevel = 0.0;
+    polysize = 0.04*mountainsize;
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -153,14 +153,14 @@ void drawGrid() {
 // The display function
 void display(void) {
     // Material properties
-	GLfloat tanamb[] = {0.2,0.15,0.1,1.0};
-	GLfloat tandiff[] = {0.4,0.3,0.2,1.0};
+    GLfloat tanamb[] = {0.2,0.15,0.1,1.0};
+    GLfloat tandiff[] = {0.4,0.3,0.2,1.0};
 
-	GLfloat seaamb[] = {0.0,0.0,0.2,1.0};
-	GLfloat seadiff[] = {0.0,0.0,0.8,1.0};
-	GLfloat seaspec[] = {0.5,0.5,1.0,1.0};
+    GLfloat seaamb[] = {0.0,0.0,0.2,1.0};
+    GLfloat seadiff[] = {0.0,0.0,0.8,1.0};
+    GLfloat seaspec[] = {0.5,0.5,1.0,1.0};
 
-	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glColor3f(1.0, 1.0, 1.0);
     glLoadIdentity();             /* clear the matrix */
 
@@ -179,23 +179,23 @@ void display(void) {
     
     // I originally wrote this code with y being up, 
     // so I just rotate the model into this coordinate system
-    glRotatef(90.0,-1.0,0.0,0.0); 	
+    glRotatef(90.0,-1.0,0.0,0.0);   
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, tanamb);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, tandiff);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, tandiff);
-	glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 10.0);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, tandiff);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, tandiff);
+    glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 10.0);
 
     // Variable size mountain
     mountain(0.0,0.0,0.0, mountainsize,0.0,0.0, 0.0,mountainsize,0.0, mountainsize);
     mountain(mountainsize,mountainsize,0.0, 0.0,mountainsize,0.0, mountainsize,0.0,0.0, mountainsize);
 
-	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, seaamb);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, seadiff);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, seaspec);
-	glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 10.0);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, seaamb);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, seadiff);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, seaspec);
+    glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 10.0);
 
-	glNormal3f(0.0,0.0,1.0);
-	glBegin(GL_QUADS);
+    glNormal3f(0.0,0.0,1.0);
+    glBegin(GL_QUADS);
         glVertex3f(0.0,0.0,sealevel);
         glVertex3f(mountainsize,0.0,sealevel);
         glVertex3f(mountainsize,mountainsize,sealevel);
@@ -204,13 +204,13 @@ void display(void) {
         //glVertex3f(mountainsize, sealevel, 0.0);
         //glVertex3f(mountainsize, sealevel, mountainsize);
         //glVertex3f(0.0,sealevel, mountainsize);
-	glEnd();
+    glEnd();
     glPopMatrix();
 
-	glutSwapBuffers();
-	glFlush ();
+    glutSwapBuffers();
+    glFlush ();
 
-	glutPostRedisplay();
+    glutPostRedisplay();
 }
 
 void reshape (int w, int h) {
@@ -273,7 +273,7 @@ void special(int key, int x, int y) {
             break;
         case GLUT_KEY_RIGHT:
             camera.roll(ROLLSPEED);
-			break;
+            break;
         case GLUT_KEY_UP:
             camera.pitch(PITCHSPEED);
             break;
@@ -297,19 +297,19 @@ void special(int key, int x, int y) {
 // q or ESC to quit
 void keyboard(unsigned char key, int x, int y) {
    switch (key) {
-		case '-':
-			sealevel -= 0.001*mountainsize;
-			break;
-		case '+':
-		case '=':
-			sealevel += 0.001*mountainsize;
-			break;
-		case 'f':
-			polysize *= 0.5;
-			break;
-		case 'c':
-			polysize *= 2.0;
-			break;
+        case '-':
+            sealevel -= 0.001*mountainsize;
+            break;
+        case '+':
+        case '=':
+            sealevel += 0.001*mountainsize;
+            break;
+        case 'f':
+            polysize *= 0.5;
+            break;
+        case 'c':
+            polysize *= 2.0;
+            break;
         case 'z':
             mountainsize -= 1.0;
             break;
@@ -327,7 +327,7 @@ void keyboard(unsigned char key, int x, int y) {
             break;
         case 'd':
             camera.roll(ROLLSPEED);
-			break;
+            break;
         case 'w':
             camera.pitch(PITCHSPEED);
             break;
@@ -335,8 +335,8 @@ void keyboard(unsigned char key, int x, int y) {
             camera.pitch(-PITCHSPEED);
             break;
         case 'q':
-		case 27:
-			exit(0);
+        case 27:
+            exit(0);
    }
 }
 
